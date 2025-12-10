@@ -1,0 +1,9 @@
+                                <div class="card mb-3" *ngFor="let producto of productos">                                    
+                                    <div class="card-body">                                        
+                                        <h5 class="card-title">{{producto.nombre}}</h5>
+                                        <p class="card-text">
+                                            <span class="badge badge-primary">{{producto.precio}}</span>
+                                        </p>
+                                        <a [routerLink]="['/ventas/nuevo']" class="btn btn-primary">Crear Venta</a>
+                                    </div>                                    
+                                </div>                                                                  
