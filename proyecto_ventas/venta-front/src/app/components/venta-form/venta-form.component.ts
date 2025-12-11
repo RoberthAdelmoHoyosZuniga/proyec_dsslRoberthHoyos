@@ -190,7 +190,6 @@ export class VentaFormComponent implements OnInit {
       this.error = 'Por favor complete todos los campos requeridos';
     }
   }
-
   cancelar(): void {
     this.router.navigate(['/productos']); // Navega a la lista de productos
   }
