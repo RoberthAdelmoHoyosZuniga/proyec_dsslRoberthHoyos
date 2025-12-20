@@ -9,7 +9,8 @@ const obtenerVentas = async (req, res) => {
             SELECT v.id_venta, v.fecha, v.total,
                    c.nombre AS cliente_nombre, c.apellido AS cliente_apellido, c.dni,
                    u.nombre AS vendedor,
-                   mp.nombre AS metodo_pago
+                   mp.nombre AS metodo_pago,
+                   (SELECT IFNULL(SUM(cantidad), 0) FROM detalle_venta WHERE id_venta = v.id_venta) AS total_productos
             FROM venta v
             INNER JOIN cliente c ON v.id_cliente = c.id_cliente
             INNER JOIN usuario u ON v.id_usuario = u.id_usuario
@@ -38,7 +39,7 @@ const obtenerVentas = async (req, res) => {
 const obtenerVentaPorId = async (req, res) => {
     try {
         const { id } = req.params;
-        
+
         // Obtener información general de la venta
         const [venta] = await db.query(`
             SELECT v.id_venta, v.fecha, v.total,
@@ -91,7 +92,7 @@ const obtenerVentaPorId = async (req, res) => {
 // ===========================
 const crearVenta = async (req, res) => {
     const connection = await db.getConnection();
-    
+
     try {
         const {
             id_cliente,
@@ -234,7 +235,7 @@ const actualizarVenta = async (req, res) => {
 // ===========================
 const eliminarVenta = async (req, res) => {
     const connection = await db.getConnection();
-    
+
     try {
         const { id } = req.params;
 
@@ -413,7 +414,8 @@ const obtenerVentasPorFecha = async (req, res) => {
             SELECT v.id_venta, v.fecha, v.total,
                    c.nombre AS cliente_nombre, c.apellido AS cliente_apellido,
                    u.nombre AS vendedor,
-                   mp.nombre AS metodo_pago
+                   mp.nombre AS metodo_pago,
+                   (SELECT IFNULL(SUM(cantidad), 0) FROM detalle_venta WHERE id_venta = v.id_venta) AS total_productos
             FROM venta v
             INNER JOIN cliente c ON v.id_cliente = c.id_cliente
             INNER JOIN usuario u ON v.id_usuario = u.id_usuario
@@ -439,11 +441,13 @@ const obtenerVentasPorFecha = async (req, res) => {
 
         // Calcular totales
         const totalVentas = ventas.reduce((sum, venta) => sum + parseFloat(venta.total), 0);
+        const totalCantidad = ventas.reduce((sum, venta) => sum + parseInt(venta.total_productos), 0);
 
         res.json({
             success: true,
             count: ventas.length,
             totalVentas: totalVentas.toFixed(2),
+            totalCantidad: totalCantidad,
             data: ventas
         });
 

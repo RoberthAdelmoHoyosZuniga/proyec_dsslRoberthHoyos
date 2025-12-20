@@ -1,0 +1,91 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3 border-0">
+                    <h2 class="fw-bold text-primary mb-0">Registrar Nuevo Producto</h2>
+                    <p class="text-muted small">Complete la información para añadir el producto al catálogo.</p>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Alertas -->
+                    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        {{successMessage}}
+                        <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+                    </div>
+                    <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        {{error}}
+                        <button type="button" class="btn-close" (click)="error = ''"></button>
+                    </div>
+
+                    <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+                        <div class="row g-3">
+                            <!-- Nombre -->
+                            <div class="col-12">
+                                <label for="nombre" class="form-label fw-semibold">Nombre del Producto</label>
+                                <input type="text" id="nombre" formControlName="nombre" class="form-control"
+                                    [ngClass]="{'is-invalid': productoForm.get('nombre')?.touched && productoForm.get('nombre')?.invalid}"
+                                    placeholder="Ej: Monitor LED 24'">
+                                <div class="invalid-feedback">
+                                    El nombre es obligatorio y debe tener al menos 3 caracteres.
+                                </div>
+                            </div>
+
+                            <!-- Precio -->
+                            <div class="col-md-6">
+                                <label for="precio" class="form-label fw-semibold">Precio de Venta</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" id="precio" formControlName="precio" class="form-control"
+                                        [ngClass]="{'is-invalid': productoForm.get('precio')?.touched && productoForm.get('precio')?.invalid}"
+                                        placeholder="0.00" step="0.01">
+                                    <div class="invalid-feedback">
+                                        Ingrese un precio válido (mayor a 0).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stock -->
+                            <div class="col-md-6">
+                                <label for="stock" class="form-label fw-semibold">Stock Inicial</label>
+                                <input type="number" id="stock" formControlName="stock" class="form-control"
+                                    [ngClass]="{'is-invalid': productoForm.get('stock')?.touched && productoForm.get('stock')?.invalid}"
+                                    placeholder="0">
+                                <div class="invalid-feedback">
+                                    El stock debe ser 0 o un número positivo.
+                                </div>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div class="col-12">
+                                <label for="id_categoria" class="form-label fw-semibold">Categoría</label>
+                                <select id="id_categoria" formControlName="id_categoria" class="form-select"
+                                    [ngClass]="{'is-invalid': productoForm.get('id_categoria')?.touched && productoForm.get('id_categoria')?.invalid}">
+                                    <option value="" disabled selected>Seleccione una categoría</option>
+                                    <option *ngFor="let cat of categorias" [value]="cat.id_categoria">
+                                        {{cat.nombre}}
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debe seleccionar una categoría.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-5">
+                            <button type="button" class="btn btn-outline-secondary px-4 py-2 flex-grow-1"
+                                (click)="cancelar()">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary px-4 py-2 flex-grow-1 fw-bold"
+                                [disabled]="productoForm.invalid && productoForm.touched">
+                                <i class="bi bi-save me-2"></i>Guardar Producto
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

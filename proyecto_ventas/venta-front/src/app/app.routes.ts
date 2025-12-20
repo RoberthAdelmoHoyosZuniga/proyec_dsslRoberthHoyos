@@ -4,6 +4,7 @@ import { Routes } from '@angular/router';
 import { ListarProductoComponent } from './components/listar-producto/listar-producto.component';
 import { VentaFormComponent } from './components/venta-form/venta-form.component';
 import { ListarVentaComponent } from './components/listar-venta/listar-venta.component';
+import { ProductoFormComponent } from './components/producto-form/producto-form.component';
 
 export const routes: Routes = [
   // Ruta raíz - redirige a productos
@@ -11,6 +12,7 @@ export const routes: Routes = [
 
   // Rutas de Productos
   { path: 'productos', component: ListarProductoComponent },
+  { path: 'productos/nuevo', component: ProductoFormComponent },
 
   // Rutas de Ventas
   { path: 'ventas', component: ListarVentaComponent },

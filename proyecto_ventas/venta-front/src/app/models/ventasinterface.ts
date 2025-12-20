@@ -16,6 +16,7 @@ export interface Venta {
   correo?: string;
   vendedor?: string;
   metodo_pago?: string;
+  total_productos?: number;
 }
 
 export interface DetalleVenta {
@@ -33,6 +34,7 @@ export interface VentaResponse<T> {
   mensaje?: string;
   count?: number;
   totalVentas?: string;
+  totalCantidad?: number;
   data?: T;
   error?: string;
 }

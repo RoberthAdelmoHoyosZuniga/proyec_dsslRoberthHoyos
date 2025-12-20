@@ -1,8 +1,13 @@
 <div class="container py-5">
     <div class="row mb-4">
-        <div class="col">
+        <div class="col-md-8">
             <h2 class="fw-bold text-primary">Nuestros Productos</h2>
             <p class="text-muted">Seleccione un producto para iniciar una venta</p>
+        </div>
+        <div class="col-md-4 text-end d-flex align-items-center justify-content-end">
+            <a routerLink="/productos/nuevo" class="btn btn-success fw-bold px-4 py-2 shadow-sm">
+                <i class="bi bi-plus-lg me-2"></i>Nuevo Producto
+            </a>
         </div>
     </div>
 
@@ -12,11 +17,15 @@
                 <h3 class="product-title">{{producto.nombre}}</h3>
             </div>
             <div class="product-body">
-                <div>
-                    <span class="price-tag">{{producto.precio | number:'1.2-2'}}</span>
-                    <p class="text-secondary small">Disponibilidad inmediata en inventario.</p>
+                <div class="mb-3">
+                    <span class="price-tag d-block mb-1">{{producto.precio | currency:'USD':'symbol':'1.2-2'}}</span>
+                    <span class="badge bg-info text-dark me-2" *ngIf="producto.categoria">{{producto.categoria}}</span>
+                    <span class="badge"
+                        [ngClass]="{'bg-success': producto.stock > 10, 'bg-warning': producto.stock <= 10 && producto.stock > 0, 'bg-danger': producto.stock === 0}">
+                        Stock: {{producto.stock}}
+                    </span>
                 </div>
-                <a [routerLink]="['/ventas/nuevo']" class="btn-action">
+                <a [routerLink]="['/ventas/nuevo']" class="btn-action w-100">
                     Crear Venta
                 </a>
             </div>

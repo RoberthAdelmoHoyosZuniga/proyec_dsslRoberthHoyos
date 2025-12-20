@@ -45,3 +45,33 @@
 .card {
     border: none;
 }
+
+/* Report Styles */
+.input-group-text {
+    border-radius: 20px 0 0 20px;
+}
+
+.form-control[type="date"] {
+    border-radius: 0 20px 20px 0;
+    color: #4a5568;
+}
+
+.bg-opacity-25 {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.rounded-4 {
+    border-radius: 1rem !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+}
+
+.bg-indigo-soft {
+    background-color: #eef2ff !important;
+}
+
+.text-indigo {
+    color: #4f46e5 !important;
+}

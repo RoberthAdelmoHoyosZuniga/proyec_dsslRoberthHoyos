@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ProductoService } from '../../services/productoservices';
+import { Producto } from '../../models/productointerface';
 
 @Component({
   selector: 'app-listar-producto',
@@ -10,9 +12,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './listar-producto.component.css'
 })
 export class ListarProductoComponent implements OnInit {
-  productos: any[] = [];
+  productos: Producto[] = [];
 
-  constructor() {}
+  constructor(private readonly productoService: ProductoService) { }
 
   ngOnInit(): void {
     // Aquí cargarías tus productos desde el servicio
@@ -20,11 +22,15 @@ export class ListarProductoComponent implements OnInit {
   }
 
   cargarProductos(): void {
-    // Datos de ejemplo
-    this.productos = [
-      { id_producto: 1, nombre: 'Producto 1', precio: 100, stock: 50 },
-      { id_producto: 2, nombre: 'Producto 2', precio: 200, stock: 30 },
-      { id_producto: 3, nombre: 'Producto 3', precio: 150, stock: 20 }
-    ];
+    this.productoService.obtenerProductos().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.productos = response.data;
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar productos:', err);
+      }
+    });
   }
 }
