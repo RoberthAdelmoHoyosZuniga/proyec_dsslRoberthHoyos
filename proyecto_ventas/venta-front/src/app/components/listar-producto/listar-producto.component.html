@@ -1,9 +1,25 @@
-                                <div class="card mb-3" *ngFor="let producto of productos">                                    
-                                    <div class="card-body">                                        
-                                        <h5 class="card-title">{{producto.nombre}}</h5>
-                                        <p class="card-text">
-                                            <span class="badge badge-primary">{{producto.precio}}</span>
-                                        </p>
-                                        <a [routerLink]="['/ventas/nuevo']" class="btn btn-primary">Crear Venta</a>
-                                    </div>                                    
-                                </div>                                                                  
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold text-primary">Nuestros Productos</h2>
+            <p class="text-muted">Seleccione un producto para iniciar una venta</p>
+        </div>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card" *ngFor="let producto of productos">
+            <div class="product-header">
+                <h3 class="product-title">{{producto.nombre}}</h3>
+            </div>
+            <div class="product-body">
+                <div>
+                    <span class="price-tag">{{producto.precio | number:'1.2-2'}}</span>
+                    <p class="text-secondary small">Disponibilidad inmediata en inventario.</p>
+                </div>
+                <a [routerLink]="['/ventas/nuevo']" class="btn-action">
+                    Crear Venta
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

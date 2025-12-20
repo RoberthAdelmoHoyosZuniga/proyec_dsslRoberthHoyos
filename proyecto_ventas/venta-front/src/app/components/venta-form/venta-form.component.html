@@ -1,85 +1,128 @@
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Nueva Venta</h2>
-        </div>
-    </div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2 class="fw-bold text-primary">Nueva Transacción de Venta</h2>
+                    <p class="text-muted">Complete los datos para registrar la operación en el sistema</p>
+                </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <form [formGroup]="ventaForm">
-                <div class="form-group">                                
-                    <label for="idCliente">Cliente</label>
-                    <select class="form-control" formControlName="id_cliente" id="idCliente">
-                        <option value="">Seleccione un cliente</option>
-                        <option *ngFor="let cliente of clientes" [value]="cliente.id_cliente">{{cliente.nombre}}</option>
-                    </select>                
-                </div>            
-                
-                <div class="form-group">                                
-                    <label for="idUsuario">Vendedor</label>
-                    <select class="form-control" formControlName="id_usuario" id="idUsuario">
-                        <option value="">Seleccione un vendedor</option>
-                        <option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">{{usuario.nombre}}</option>                    
-                    </select>                
-                </div>            
-                
-                <div class="form-group">                                
-                    <label for="idPago">Método de pago</label>
-                    <select class="form-control" formControlName="id_pago" id="idPago">
-                        <option value="">Seleccione un método</option>
-                        <option *ngFor="let metodoPago of metodosPago" [value]="metodoPago.id_pago">{{metodoPago.nombre}}</option>
-                    </select>                
-                </div>            
-                
-                <div class="form-group">                                
-                    <label for="total">Total</label>
-                    <input type="number" class="form-control" formControlName="total" id="total" readonly>
-                </div>            
-                
-                <div class="form-group">                                
-                    <label>Detalles de la venta</label>                
-                    <div formArrayName="detalles">
-                        <div *ngFor="let detalle of detalles.controls; let i=index" [formGroupName]="i" class="mb-3">
-                            <div class="form-row">
-                                <div class="col-md-4">
-                                    <label>Producto</label>
-                                    <select class="form-control" formControlName="id_producto" (change)="onProductoChange(i)">
-                                        <option value="">Seleccione producto</option>
-                                        <option *ngFor="let producto of productos" [value]="producto.id_producto">{{producto.nombre}}</option>
-                                    </select>
+                <form [formGroup]="ventaForm">
+                    <div class="row g-4">
+                        <!-- Left Column: Header Info -->
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="idCliente" class="form-label">Cliente Responsable</label>
+                                <select id="idCliente" class="form-select" formControlName="id_cliente">
+                                    <option value="">Seleccione un cliente</option>
+                                    <option *ngFor="let cliente of clientes" [value]="cliente.id_cliente">
+                                        {{cliente.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="idUsuario" class="form-label">Vendedor Asignado</label>
+                                <select id="idUsuario" class="form-select" formControlName="id_usuario">
+                                    <option value="">Seleccione un vendedor</option>
+                                    <option *ngFor="let usuario of usuarios" [value]="usuario.id_usuario">
+                                        {{usuario.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="idPago" class="form-label">Método de Pago</label>
+                                <select id="idPago" class="form-select" formControlName="id_pago">
+                                    <option value="">Seleccione un método</option>
+                                    <option *ngFor="let metodoPago of metodosPago" [value]="metodoPago.id_pago">
+                                        {{metodoPago.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="p-3 bg-light rounded-4 text-center mt-4">
+                                <p class="form-label d-block m-0">Monto Total</p>
+                                <span class="total-badge">$ {{ventaForm.get('total')?.value | number:'1.2-2'}}</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Details Info -->
+                        <div class="col-md-8">
+                            <div class="details-section">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="fw-bold m-0">Detalles del Pedido</h5>
+                                    <button type="button" class="btn-add" (click)="agregarDetalle()">
+                                        <span>+</span> Agregar Producto
+                                    </button>
                                 </div>
-                                <div class="col-md-3">
-                                    <label>Cantidad</label>
-                                    <input type="number" class="form-control" formControlName="cantidad" (change)="onCantidadChange(i)" min="1">
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Precio Unit.</label>
-                                    <input type="number" class="form-control" formControlName="precio_unitario" readonly>
-                                </div>
-                                <div class="col-md-2">
-                                    <label>&nbsp;</label>
-                                    <button type="button" class="btn btn-danger btn-block" (click)="eliminarDetalle(i)">X</button>
+
+                                <div formArrayName="detalles">
+                                    <div *ngFor="let detalle of detalles.controls; let i=index" [formGroupName]="i"
+                                        class="detail-row">
+                                        <div class="row g-2 align-items-end">
+                                            <div class="col-md-6">
+                                                <label [for]="'producto-' + i" class="form-label small">Producto</label>
+                                                <select [id]="'producto-' + i" class="form-select"
+                                                    formControlName="id_producto" (change)="onProductoChange(i)">
+                                                    <option value="">Seleccione producto</option>
+                                                    <option *ngFor="let producto of productos"
+                                                        [value]="producto.id_producto">
+                                                        {{producto.nombre}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label [for]="'cantidad-' + i" class="form-label small">Cantidad</label>
+                                                <input [id]="'cantidad-' + i" type="number" class="form-control"
+                                                    formControlName="cantidad" (change)="onCantidadChange(i)" min="1">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label small">Precio</label>
+                                                <input type="text" class="form-control"
+                                                    [value]="detalle.get('precio_unitario')?.value | number:'1.2-2'"
+                                                    readonly aria-label="Precio unitario">
+                                            </div>
+                                            <div class="col-md-1 text-end">
+                                                <button type="button" class="btn-remove" (click)="eliminarDetalle(i)"
+                                                    aria-label="Eliminar producto">
+                                                    &times;
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="detalles.length === 0"
+                                        class="text-center py-4 text-muted border-dashed rounded-3">
+                                        No hay productos agregados a esta venta.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>                
-                    <button type="button" class="btn btn-success mt-2" (click)="agregarDetalle()">+ Agregar Producto</button>
-                </div>            
-                
-                <div class="form-group mt-4">                                
-                    <button type="button" class="btn btn-primary mr-2" (click)="onSubmit()">Crear Venta</button>
-                    <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
-                </div>            
-            </form> 
-        </div>
-        
-        <div class="col-md-6">
-            <div class="alert alert-success" *ngIf="successMessage">
-                {{successMessage}}
-            </div>
-            <div class="alert alert-danger" *ngIf="error">
-                {{error}}
+                    </div>
+
+                    <div class="mt-5 d-flex gap-3 justify-content-end">
+                        <button type="button" class="btn btn-link text-secondary text-decoration-none fw-semibold"
+                            (click)="cancelar()">
+                            Cancelar
+                        </button>
+                        <button type="button" class="btn-submit" (click)="onSubmit()"
+                            [disabled]="ventaForm.invalid || detalles.length === 0">
+                            Confirmar y Registrar Venta
+                        </button>
+                    </div>
+
+                    <!-- Alerts -->
+                    <div class="mt-4">
+                        <div class="alert alert-success border-0 shadow-sm rounded-4" *ngIf="successMessage"
+                            role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i> {{successMessage}}
+                        </div>
+                        <div class="alert alert-danger border-0 shadow-sm rounded-4" *ngIf="error" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{error}}
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,0 +1,47 @@
+.bg-indigo-soft {
+    background-color: #eef2ff;
+}
+
+.text-indigo {
+    color: #4f46e5;
+}
+
+.avatar-init {
+    width: 32px;
+    height: 32px;
+    background: #f1f5f9;
+    color: #64748b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.table thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #64748b;
+    border-bottom: 2px solid #f1f5f9;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.table tbody td {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-color: #f1f5f9;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8fafc;
+    cursor: default;
+}
+
+.card {
+    border: none;
+}
