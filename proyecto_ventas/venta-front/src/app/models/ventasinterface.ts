@@ -17,6 +17,7 @@ export interface Venta {
   vendedor?: string;
   metodo_pago?: string;
   total_productos?: number;
+  productos_resumen?: string;
 }
 
 export interface DetalleVenta {
@@ -35,6 +36,12 @@ export interface VentaResponse<T> {
   count?: number;
   totalVentas?: string;
   totalCantidad?: number;
+  productos_detalle?: ProductoDetalleReporte[];
   data?: T;
   error?: string;
+}
+
+export interface ProductoDetalleReporte {
+  nombre: string;
+  total_vendido: number;
 }

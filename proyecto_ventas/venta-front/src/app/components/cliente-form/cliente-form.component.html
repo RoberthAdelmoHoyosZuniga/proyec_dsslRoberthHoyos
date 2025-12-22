@@ -1,0 +1,63 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2 class="fw-bold text-primary">Registrar Nuevo Cliente</h2>
+                    <p class="text-muted">Complete la información para dar de alta al cliente</p>
+                </div>
+
+                <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" id="nombre" class="form-control" formControlName="nombre"
+                                placeholder="Nombre">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" id="apellido" class="form-control" formControlName="apellido"
+                                placeholder="Apellido">
+                        </div>
+                        <div class="col-12">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input type="text" id="dni" class="form-control" formControlName="dni"
+                                placeholder="N° de Documento">
+                        </div>
+                        <div class="col-12">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" id="telefono" class="form-control" formControlName="telefono"
+                                placeholder="Opcional">
+                        </div>
+                        <div class="col-12">
+                            <label for="correo" class="form-label">Correo Electrónico</label>
+                            <input type="email" id="correo" class="form-control" formControlName="correo"
+                                placeholder="ejemplo@correo.com">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-link text-secondary text-decoration-none"
+                            (click)="cancelar()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-submit" [disabled]="clienteForm.invalid">
+                            Registrar Cliente
+                        </button>
+                    </div>
+
+                    <!-- Alerts -->
+                    <div class="mt-4">
+                        <div class="alert alert-success border-0 shadow-sm rounded-4" *ngIf="successMessage"
+                            role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i> {{successMessage}}
+                        </div>
+                        <div class="alert alert-danger border-0 shadow-sm rounded-4" *ngIf="error" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{error}}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

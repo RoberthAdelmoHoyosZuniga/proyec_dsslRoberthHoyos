@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MetodoPago } from '../../models/metodopagointerface';
 import { MetodoPagoService } from '../../services/metodopagoservice';
@@ -17,7 +17,7 @@ import { Venta } from '../../models/ventasinterface';
 @Component({
   selector: 'app-venta-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], // Quita RouterLink
+  imports: [CommonModule, ReactiveFormsModule, FormsModule], // Quita RouterLink
   templateUrl: './venta-form.component.html',
   styleUrl: './venta-form.component.css'
 })
@@ -30,14 +30,19 @@ export class VentaFormComponent implements OnInit {
   successMessage: string = '';
   error: string = '';
 
+  // Búsqueda de clientes
+  searchTermCliente: string = '';
+  clientesFiltrados: Cliente[] = [];
+  mostrarResultadosCliente: boolean = false;
+
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private metodoPagoService: MetodoPagoService,
-    private clienteService: ClienteService,
-    private usuarioService: UsuarioService,
-    private productoService: ProductoService,
-    private ventaService: VentaService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly metodoPagoService: MetodoPagoService,
+    private readonly clienteService: ClienteService,
+    private readonly usuarioService: UsuarioService,
+    private readonly productoService: ProductoService,
+    private readonly ventaService: VentaService
   ) { }
 
   ngOnInit(): void {
@@ -99,6 +104,34 @@ export class VentaFormComponent implements OnInit {
       }
     });
   }
+
+  // Métodos para búsqueda de clientes
+  onSearchCliente(): void {
+    if (!this.searchTermCliente) {
+      this.clientesFiltrados = [];
+      this.mostrarResultadosCliente = false;
+      this.ventaForm.patchValue({ id_cliente: '' });
+      return;
+    }
+
+    this.clientesFiltrados = this.clientes.filter(c =>
+      c.nombre.toLowerCase().includes(this.searchTermCliente.toLowerCase()) ||
+      c.apellido.toLowerCase().includes(this.searchTermCliente.toLowerCase()) ||
+      c.dni.includes(this.searchTermCliente)
+    );
+    this.mostrarResultadosCliente = true;
+  }
+
+  seleccionarCliente(cliente: Cliente): void {
+    this.ventaForm.patchValue({ id_cliente: cliente.id_cliente });
+    this.searchTermCliente = `${cliente.nombre} ${cliente.apellido}`;
+    this.mostrarResultadosCliente = false;
+  }
+
+  registrarNuevoCliente(): void {
+    this.router.navigate(['/clientes/nuevo']);
+  }
+
   initForm(): void {
     this.ventaForm = this.fb.group({
       id_cliente: ['', Validators.required],

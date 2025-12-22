@@ -1,122 +1,141 @@
 .form-card {
     background: white;
-    border-radius: 20px;
-    border: none;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
-    padding: 2.5rem;
-    margin-bottom: 2rem;
+    padding: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .form-header {
     margin-bottom: 2rem;
-    border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 1rem;
-}
-
-.form-label {
-    font-weight: 600;
-    color: #475569;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .form-control,
 .form-select {
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
-    border: 1px solid #e2e8f0;
-    background-color: #f8fafc;
-    transition: all 0.2s;
+    border-radius: 1rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
-    background-color: white;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.05);
 }
 
-.form-control[readonly] {
-    background-color: #f1f5f9;
-    cursor: not-allowed;
+.form-label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 0.5rem;
 }
 
 .details-section {
-    background: #f8fafc;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-top: 2rem;
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 2rem;
+    height: 100%;
+}
+
+.btn-add {
+    background: #e7f1ff;
+    color: #0d6efd;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+    background: #0d6efd;
+    color: white;
 }
 
 .detail-row {
     background: white;
-    border-radius: 12px;
-    padding: 1rem;
+    padding: 1.25rem;
+    border-radius: 1.25rem;
     margin-bottom: 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-    border: 1px solid #f1f5f9;
-    transition: transform 0.2s;
-}
-
-.detail-row:hover {
-    transform: scale(1.01);
-}
-
-.btn-add {
-    background: #10b981;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 0.6rem 1.2rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: background 0.2s;
-}
-
-.btn-add:hover {
-    background: #059669;
-    color: white;
-}
-
-.btn-submit {
-    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 0.8rem 2rem;
-    font-weight: 700;
-    transition: opacity 0.2s;
-}
-
-.btn-submit:hover {
-    opacity: 0.9;
-    color: white;
+    border: 1px solid #f0f0f0;
 }
 
 .btn-remove {
-    background: #fee2e2;
-    color: #ef4444;
+    background: #fff0f0;
+    color: #dc3545;
     border: none;
-    border-radius: 10px;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
 }
 
 .btn-remove:hover {
-    background: #ef4444;
+    background: #dc3545;
     color: white;
 }
 
 .total-badge {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: 800;
-    color: #4338ca;
+    color: #0d6efd;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 1.25rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(13, 110, 253, 0.2);
+}
+
+.btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Search results styles */
+.search-results-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid #eee;
+    margin-top: 5px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.search-item {
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.search-item:last-child {
+    border-bottom: none;
+}
+
+.search-item:hover {
+    background: #f8f9fa;
+    color: #0d6efd;
+}
+
+.x-small {
+    font-size: 0.75rem;
 }

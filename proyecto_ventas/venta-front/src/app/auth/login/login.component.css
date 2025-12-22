@@ -1,0 +1,45 @@
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 20px;
+}
+
+.brand-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(13, 110, 253, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.input-group-text {
+    border-radius: 12px 0 0 12px;
+}
+
+.form-control {
+    border-radius: 0 12px 12px 0;
+    padding: 12px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    background-color: #fff !important;
+}
+
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
+}

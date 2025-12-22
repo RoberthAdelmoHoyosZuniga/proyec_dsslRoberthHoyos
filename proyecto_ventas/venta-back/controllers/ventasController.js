@@ -10,7 +10,11 @@ const obtenerVentas = async (req, res) => {
                    c.nombre AS cliente_nombre, c.apellido AS cliente_apellido, c.dni,
                    u.nombre AS vendedor,
                    mp.nombre AS metodo_pago,
-                   (SELECT IFNULL(SUM(cantidad), 0) FROM detalle_venta WHERE id_venta = v.id_venta) AS total_productos
+                   (SELECT IFNULL(SUM(cantidad), 0) FROM detalle_venta WHERE id_venta = v.id_venta) AS total_productos,
+                   (SELECT GROUP_CONCAT(CONCAT(p.nombre, ' (x', dv.cantidad, ')') SEPARATOR ', ') 
+                    FROM detalle_venta dv 
+                    INNER JOIN producto p ON dv.id_producto = p.id_producto 
+                    WHERE dv.id_venta = v.id_venta) AS productos_resumen
             FROM venta v
             INNER JOIN cliente c ON v.id_cliente = c.id_cliente
             INNER JOIN usuario u ON v.id_usuario = u.id_usuario
@@ -415,7 +419,11 @@ const obtenerVentasPorFecha = async (req, res) => {
                    c.nombre AS cliente_nombre, c.apellido AS cliente_apellido,
                    u.nombre AS vendedor,
                    mp.nombre AS metodo_pago,
-                   (SELECT IFNULL(SUM(cantidad), 0) FROM detalle_venta WHERE id_venta = v.id_venta) AS total_productos
+                   (SELECT IFNULL(SUM(cantidad), 0) FROM detalle_venta WHERE id_venta = v.id_venta) AS total_productos,
+                   (SELECT GROUP_CONCAT(CONCAT(p.nombre, ' (x', dv.cantidad, ')') SEPARATOR ', ') 
+                    FROM detalle_venta dv 
+                    INNER JOIN producto p ON dv.id_producto = p.id_producto 
+                    WHERE dv.id_venta = v.id_venta) AS productos_resumen
             FROM venta v
             INNER JOIN cliente c ON v.id_cliente = c.id_cliente
             INNER JOIN usuario u ON v.id_usuario = u.id_usuario
@@ -439,15 +447,36 @@ const obtenerVentasPorFecha = async (req, res) => {
 
         const [ventas] = await db.query(query, params);
 
+        // Nueva consulta para el desglose de productos
+        let productsQuery = `
+            SELECT p.nombre, SUM(dv.cantidad) as total_vendido
+            FROM detalle_venta dv
+            INNER JOIN venta v ON dv.id_venta = v.id_venta
+            INNER JOIN producto p ON dv.id_producto = p.id_producto
+        `;
+
+        if (fechaInicio && fechaFin) {
+            productsQuery += ` WHERE DATE(v.fecha) BETWEEN ? AND ?`;
+        } else if (fechaInicio) {
+            productsQuery += ` WHERE DATE(v.fecha) >= ?`;
+        } else if (fechaFin) {
+            productsQuery += ` WHERE DATE(v.fecha) <= ?`;
+        }
+
+        productsQuery += ` GROUP BY p.id_producto, p.nombre ORDER BY total_vendido DESC`;
+
+        const [productosDetalle] = await db.query(productsQuery, params);
+
         // Calcular totales
-        const totalVentas = ventas.reduce((sum, venta) => sum + parseFloat(venta.total), 0);
-        const totalCantidad = ventas.reduce((sum, venta) => sum + parseInt(venta.total_productos), 0);
+        const totalVentas = ventas.reduce((sum, venta) => sum + Number.parseFloat(venta.total), 0);
+        const totalCantidad = ventas.reduce((sum, venta) => sum + Number.parseInt(venta.total_productos), 0);
 
         res.json({
             success: true,
             count: ventas.length,
             totalVentas: totalVentas.toFixed(2),
             totalCantidad: totalCantidad,
+            productos_detalle: productosDetalle,
             data: ventas
         });
 

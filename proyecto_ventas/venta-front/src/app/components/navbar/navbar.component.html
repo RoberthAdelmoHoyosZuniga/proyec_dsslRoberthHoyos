@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-3 mb-4 sticky-top" *ngIf="isLoggedIn">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" routerLink="/">
+            <i class="bi bi-shop me-2 fs-3"></i>
+            SISTEMA VENTAS
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto gap-2">
+                <li class="nav-item">
+                    <a class="nav-link rounded-pill px-3" routerLink="/productos"
+                        routerLinkActive="active bg-white text-primary fw-bold"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        <i class="bi bi-box-seam me-1"></i> Productos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded-pill px-3" routerLink="/ventas" [routerLinkActiveOptions]="{exact: true}"
+                        routerLinkActive="active bg-white text-primary fw-bold">
+                        <i class="bi bi-clock-history me-1"></i> Historial
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded-pill px-3" routerLink="/clientes/nuevo"
+                        routerLinkActive="active bg-white text-primary fw-bold">
+                        <i class="bi bi-people me-1"></i> Clientes
+                    </a>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-3">
+                <a class="btn btn-light rounded-pill px-4 fw-bold text-primary shadow-sm" routerLink="/ventas/nuevo">
+                    <i class="bi bi-plus-lg me-1"></i> Nueva Venta
+                </a>
+
+                <div class="vr text-white opacity-50 d-none d-lg-block"></div>
+
+                <div class="dropdown" *ngIf="usuario">
+                    <button
+                        class="btn btn-outline-light dropdown-toggle rounded-pill border-0 px-3 d-flex align-items-center"
+                        type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-5 me-2"></i>
+                        <span class="small fw-bold">{{ usuario.nombre }}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 mt-2">
+                        <li class="px-3 py-2 border-bottom">
+                            <p class="mb-0 small text-muted">Usuario</p>
+                            <p class="mb-0 fw-bold">{{ usuario.usuario }}</p>
+                            <span class="badge bg-info-subtle text-info rounded-pill x-small mt-1">{{ usuario.rol
+                                }}</span>
+                        </li>
+                        <li>
+                            <button class="dropdown-item py-2 text-danger d-flex align-items-center mt-1"
+                                (click)="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

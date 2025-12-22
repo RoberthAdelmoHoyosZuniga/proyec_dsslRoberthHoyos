@@ -75,3 +75,8 @@
 .text-indigo {
     color: #4f46e5 !important;
 }
+
+.text-indigo-soft-dark {
+    color: #818cf8;
+    font-size: 0.75rem;
+}
