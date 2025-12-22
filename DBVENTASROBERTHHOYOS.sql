@@ -120,7 +120,7 @@ CREATE TABLE `metodo_pago` (
 
 LOCK TABLES `metodo_pago` WRITE;
 /*!40000 ALTER TABLE `metodo_pago` DISABLE KEYS */;
-INSERT INTO `metodo_pago` VALUES (1,'yape'),(2,'plin '),(3,'transferencia');
+INSERT INTO `metodo_pago` VALUES (1,'yape'),(2,'plin '),(3,'transferencia'),(4,'efectivo');
 /*!40000 ALTER TABLE `metodo_pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
